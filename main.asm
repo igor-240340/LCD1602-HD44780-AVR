@@ -33,7 +33,45 @@ READ:       LPM R0,Z+                       ;
             
             ;
             ;
-MAIN:       LDI XL,LOW(STRRAM)              ; Эмуляция вывода первого операнда.
+MAIN:       RCALL CHREXMPL                  ;
+            RJMP END                        ;
+
+            ;
+            ; Пример последовательного вывода символов с задержкой между выводом каждого.
+            ; К проблеме вывода символов через одну позицию.
+CHREXMPL:   LDI R16,'1'                     ; Вывод без задержки.
+            MOV CHAR,R16                    ;
+            RCALL PRNTCHR                   ;
+            LDI R16,'2'                     ;
+            MOV CHAR,R16                    ;
+            RCALL PRNTCHR                   ;
+            LDI R16,'3'                     ;
+            MOV CHAR,R16                    ;
+            RCALL PRNTCHR                   ;
+
+            RCALL DELAY1S                   ;
+                        
+            LDI R16,'4'                     ; Вывод с задержкой - здесь и была проблема с пропусками.
+            MOV CHAR,R16                    ;
+            RCALL PRNTCHR                   ;
+
+            RCALL DELAY1S                   ;
+
+            LDI R16,'5'                     ;
+            MOV CHAR,R16                    ;
+            RCALL PRNTCHR                   ;
+
+            RCALL DELAY1S                   ;
+
+            LDI R16,'6'                     ;
+            MOV CHAR,R16                    ;
+            RCALL PRNTCHR                   ;
+
+            RET
+
+            ;
+            ;
+INPEXMPL:   LDI XL,LOW(STRRAM)              ; Эмуляция вывода первого операнда.
             LDI XH,HIGH(STRRAM)             ;
             RCALL PRNTSTR                   ;
 
@@ -78,25 +116,25 @@ MAIN:       LDI XL,LOW(STRRAM)              ; Эмуляция вывода пе
             MOV CHAR,R16                    ;
             RCALL PRNTCHR                   ;
 
-;---------------------------------------------------------------------------------------
-; BEGIN: ПРИМЕР СДВИГА ДИСПЛЕЯ.
-;---------------------------------------------------------------------------------------
-;            RCALL DELAY20MS                 ;
-;            LDI R20,24                      ;
-;RPTSHFTL:   RCALL SHFTLFT                   ;
-;            RCALL DELAY20MS                 ;
-;            DEC R20                         ;
-;            BRNE RPTSHFTL                   ;
+            RET
 
-;            RCALL DELAY20MS                 ;
-;            LDI R20,24                      ;
-;RPTSHFTR:   RCALL SHFTRGHT                  ;
-;            RCALL DELAY20MS                 ;
-;            DEC R20                         ;
-;            BRNE RPTSHFTR                   ;
-;---------------------------------------------------------------------------------------
-; END: ПРИМЕР СДВИГА ДИСПЛЕЯ.
-;---------------------------------------------------------------------------------------
+            ;
+            ;
+SHFTEXMPL:  RCALL DELAY20MS                 ;
+            LDI R20,24                      ;
+RPTSHFTL:   RCALL SHFTLFT                   ;
+            RCALL DELAY20MS                 ;
+            DEC R20                         ;
+            BRNE RPTSHFTL                   ;
+
+            RCALL DELAY20MS                 ;
+            LDI R20,24                      ;
+RPTSHFTR:   RCALL SHFTRGHT                  ;
+            RCALL DELAY20MS                 ;
+            DEC R20                         ;
+            BRNE RPTSHFTR                   ;
+            
+            RET
 
 END:        RJMP END
 
