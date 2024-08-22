@@ -33,7 +33,9 @@ READ:       LPM R0,Z+                       ;
             
             ;
             ;
-MAIN:       RCALL CHREXMPL                  ;
+MAIN:       ;RCALL CHREXMPL
+            ;RCALL INPEXMPL
+            RCALL SHFTEXMPL
             RJMP END                        ;
 
             ;
@@ -120,7 +122,11 @@ INPEXMPL:   LDI XL,LOW(STRRAM)              ; Эмуляция вывода пе
 
             ;
             ;
-SHFTEXMPL:  RCALL DELAY20MS                 ;
+SHFTEXMPL:  LDI XL,LOW(STRRAM)              ;
+            LDI XH,HIGH(STRRAM)             ;
+            RCALL PRNTSTR                   ;
+            RCALL DELAY20MS                 ;
+            
             LDI R20,24                      ;
 RPTSHFTL:   RCALL SHFTLFT                   ;
             RCALL DELAY20MS                 ;
@@ -155,6 +161,6 @@ D1:         DEC R18
 
 ;STRPRG:     .DB "1.3012952804E-02",0
 ;STRPRG:     .DB "-7.100000045E+38",0
-STRPRG:     .DB "-45.1002340045",0
+;STRPRG:     .DB "-45.1002340045",0
 ;STRPRG:     .DB "1234567890123456",0
-;STRPRG:     .DB "1234567890123456ABCDEFGHIJKLMNOPQRSTUVWX",0
+STRPRG:     .DB "1234567890123456ABCDEFGHIJKLMNOPQRSTUVWX",0
