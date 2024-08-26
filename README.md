@@ -2,7 +2,7 @@
 
 This repository contains an AVR assembly library for interfacing with the LCD1602 display using the HD44780 controller. The library provides essential functions to control the cursor, print characters, and display strings on the LCD.
 
-It is used in the 'Hardware Calculator from Scratch' project, which can be found in [this](https://github.com/igor-240340/HardwareCalculatorFromScratch) repository.
+It is used in the "Hardware Calculator From Scratch" project, which can be found in [this](https://github.com/igor-240340/HardwareCalculatorFromScratch) repository.
 
 ## Features
 
