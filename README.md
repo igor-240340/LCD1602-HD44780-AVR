@@ -1,6 +1,6 @@
 # LCD1602-HD44780 Library for AVR MCUs
 
-![](/lcd1602.png)
+![](/docs/lcd1602.png)
 
 This repository contains an AVR assembly library for interfacing with the LCD1602 display using the HD44780 controller. The library provides essential functions to control the cursor, print characters, and display strings on the LCD.
 
