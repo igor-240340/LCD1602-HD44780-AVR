@@ -1,6 +1,6 @@
             .INCLUDE <m328pdef.inc>
 
-            .EQU SP=RAMEND-256              ; Под стеком - строка 16 символов с '\0' в конце.
+            .EQU SP=RAMEND-256              ; Под стеком - строка с '\0' в конце.
             
             .DSEG
             .ORG SP+1                       ;
