@@ -1,5 +1,7 @@
 # LCD1602-HD44780 Library for AVR MCUs
 
+Original Russian version is located in [dev](https://github.com/igor-240340/LCD1602-HD44780-AVR/tree/dev) branch.
+
 ![](/docs/lcd1602.png)
 
 This repository contains an AVR assembly library for interfacing with the LCD1602 display using the HD44780 controller. The library provides essential functions to control the cursor, print characters, and display strings on the LCD.
@@ -12,13 +14,13 @@ It is used in the "Hardware Calculator From Scratch" project, which can be found
 - **Character Printing**: Print single characters to the LCD.
 - **String Printing**: Display strings stored in SRAM on the LCD.
 - **8-Bit Mode Support**: Operates exclusively in 8-bit mode.
-- **Busy-Flag Synchronization**: Relies on the busy-flag for efficient communication.
+- **Busy Flag Synchronization**: Synchronously waits for the controller to be ready using the busy flag.
 
 ## Default Configuration
 
-- **Control Lines**: Connected to `PORTC`.
-- **Data/Instruction Lines**: Connected to `PORTB`.
-- **Busy-Flag**: Monitored on bit 7 of `PORTB`.
+- **Control Line**: Connected to `PORTC`.
+- **Data/Instruction Line**: Connected to `PORTB`.
+- **Busy Flag**: Monitored on bit 7 of `PORTB`.
 
 ## Functions Overview
 
@@ -50,7 +52,7 @@ It is used in the "Hardware Calculator From Scratch" project, which can be found
 ### Busy Flag Handling
 
 - **Busy Flag Wait**:
-  - `WAITBUSY`: Wait until the busy-flag is cleared, indicating that the LCD is ready for the next command.
+  - `WAITBUSY`: Wait until the busy flag is cleared, indicating that the LCD is ready for the next command.
 
 ## Usage
 
@@ -77,9 +79,9 @@ RCALL PRNTSTR
 To print a single character, load the character into the `CHAR` register and call `PRNTCHR`:
 
 ```assembly
-LDI R16, 'A'   ; Load character 'A' into register R16
-MOV CHAR, R16  ; Move the character into the CHAR register
-RCALL PRNTCHR  ; Print the character
+LDI R16, 'A'   ; Load character 'A' into register R16.
+MOV CHAR, R16  ; Move the character into the CHAR register.
+RCALL PRNTCHR  ; Print the character.
 ```
 
 ### Controlling the Cursor
@@ -87,8 +89,8 @@ RCALL PRNTCHR  ; Print the character
 To move the cursor or control its visibility, use the appropriate function calls:
 
 ```assembly
-RCALL CURSL1BEG  ; Move cursor to the beginning of the first line
-RCALL ENBLCURS   ; Enable blinking cursor
+RCALL CURSL1BEG  ; Move cursor to the beginning of the first line.
+RCALL ENBLCURS   ; Enable blinking cursor.
 ```
 
 ### Clearing the Display
