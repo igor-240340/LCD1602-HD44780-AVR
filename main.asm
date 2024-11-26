@@ -1,10 +1,10 @@
             .INCLUDE <m328pdef.inc>
 
-            .EQU SP=RAMEND-256              ; Под стеком - строка 16 символов с '\0' в конце.
+            .EQU SP=RAMEND-256              ; Under the stack: a string with a '\0' terminator.
             
             .DSEG
             .ORG SP+1                       ;
-STRRAM:     .BYTE 256                       ; Указатель на ASCII-строку с числом в SRAM.
+STRRAM:     .BYTE 256                       ; Pointer to a numeric ASCII string in SRAM.
 
             .CSEG                           ;
             .ORG 0x00                       ;
@@ -20,14 +20,14 @@ RESET:      LDI YL,LOW(SP)                  ;
             OUT SPL,YL                      ;
             OUT SPH,YH                      ;
 
-            LDI ZL,LOW(STRPRG<<1)           ; Читаем числовую строку из памяти программ в SRAM.
+            LDI ZL,LOW(STRPRG<<1)           ; Read the numeric string from program memory into SRAM.
             LDI ZH,HIGH(STRPRG<<1)          ;
             LDI XL,LOW(STRRAM)              ;
             LDI XH,HIGH(STRRAM)             ;
 READ:       LPM R0,Z+                       ;
             ST X+,R0                        ;
-            AND R0,R0                       ; Прочитали символ конца строки NUL?
-            BRNE READ                       ; Нет, продолжаем.
+            AND R0,R0                       ; NUL?
+            BRNE READ                       ; No, continue.
 
             RCALL INITLCD                   ;
             
@@ -39,9 +39,9 @@ MAIN:       ;RCALL CHREXMPL
             RJMP END                        ;
 
             ;
-            ; Пример последовательного вывода символов с задержкой между выводом каждого.
-            ; К проблеме вывода символов через одну позицию.
-CHREXMPL:   LDI R16,'1'                     ; Вывод без задержки.
+            ; Example of sequential character output with a delay between each character.
+            ; NOTE: Addresses the issue of skipping every other character during output.
+CHREXMPL:   LDI R16,'1'                     ; Output without delay.
             MOV CHAR,R16                    ;
             RCALL PRNTCHR                   ;
             LDI R16,'2'                     ;
@@ -53,7 +53,7 @@ CHREXMPL:   LDI R16,'1'                     ; Вывод без задержки
 
             RCALL DELAY1S                   ;
                         
-            LDI R16,'4'                     ; Вывод с задержкой - здесь и была проблема с пропусками.
+            LDI R16,'4'                     ; Output with delay - this is where the issue with skipping occurred.
             MOV CHAR,R16                    ;
             RCALL PRNTCHR                   ;
 
@@ -73,13 +73,13 @@ CHREXMPL:   LDI R16,'1'                     ; Вывод без задержки
 
             ;
             ;
-INPEXMPL:   LDI XL,LOW(STRRAM)              ; Эмуляция вывода первого операнда.
+INPEXMPL:   LDI XL,LOW(STRRAM)              ; Emulation of the first operand output.
             LDI XH,HIGH(STRRAM)             ;
             RCALL PRNTSTR                   ;
 
             RCALL DELAY1S                   ;
 
-            RCALL CURSL1END                 ; Эмуляция вывода символа оператора.
+            RCALL CURSL1END                 ; Emulation of the operator character output.
             LDI R16,'/'                     ;
             MOV CHAR,R16                    ;
             RCALL PRNTCHR                   ;
@@ -90,29 +90,29 @@ INPEXMPL:   LDI XL,LOW(STRRAM)              ; Эмуляция вывода пе
 
             RCALL DELAY1S                   ;
 
-            LDI XL,LOW(STRRAM)              ; Эмуляция вывода второго операнда.
+            LDI XL,LOW(STRRAM)              ; Emulation of the second operand output.
             LDI XH,HIGH(STRRAM)             ;
             RCALL PRNTSTR                   ;
 
             RCALL DELAY1S                   ;
 
-            RCALL CLEARLCD                  ; Очищаем экран.
+            RCALL CLEARLCD                  ; Clear the screen.
 
             RCALL DELAY1S                   ;
 
-            RCALL DSBLCURS                  ; Деактивируем курсор.
+            RCALL DSBLCURS                  ; Deactivate the cursor.
 
-            LDI XL,LOW(STRRAM)              ; Выводим результат.
+            LDI XL,LOW(STRRAM)              ; Output the result.
             LDI XH,HIGH(STRRAM)             ;
             RCALL PRNTSTR                   ;
             
             RCALL DELAY1S                   ;
 
-            RCALL CLEARLCD                  ; Очищаем экран.
+            RCALL CLEARLCD                  ; Clear the screen.
 
             RCALL DELAY1S                   ;
 
-            RCALL ENBLCURS                  ; Активируем курсор.
+            RCALL ENBLCURS                  ; Activate the cursor.
 
             LDI R16,'H'                     ;
             MOV CHAR,R16                    ;
@@ -145,7 +145,7 @@ RPTSHFTR:   RCALL SHFTRGHT                  ;
 END:        RJMP END
 
             ;
-            ; Задержка 1s (8MHz).
+            ; Delay 1s (8MHz).
             ; NOTE: Assembly code auto-generated by utility from Bret Mulvey.
 DELAY1S:    LDI R16,41
             LDI R17,150
